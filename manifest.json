@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name":"Pikabu-anticensure",
+  "version":"0.1",
+  "background": {
+    //"page": ["bg.html"]  // имя background страницы.
+	  "scripts": ["script.js"]
+  },
+  "browser_action":{      // действие для текущей страницы
+    "default_title": "Ffilter",
+    "default_icon": "icon.png",
+    "default_popup":"popup.html"   // имя страницы фильтра
+  },
+  "permissions": [      // разрешения
+    "activeTab","tabs","webNavigation","http://pikabu.ru/*"
+  ],
+  "content_scripts":[{       // работа с DOM страницы
+    "matches": ["http://pikabu.ru/*"],
+    "js": ["script.js"]
+  }]
+}
