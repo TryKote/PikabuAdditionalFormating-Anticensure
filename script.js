@@ -76,18 +76,36 @@ function replace() {
     //---------BASE64-decode module-------------- 
     var base = /\[\:([\s\S]*?)\:\]/gim;
     console.log('var base: ', base);
-    var res = base.exec(before); //wo string
-    //alert(res+'\n'+typeof res);
+    var res = base.exec(before);
     if (res) {
       console.log('Res found: ', res[1]);
       res = base64decode(String(res[1]));
       console.log('Res decoded: ', res);
       res = antixss(res);
       console.log('After antixss: ', res);
-    } 
     //------------------------------------------
+      
+      before = '<style type="text/css">'+
+                '.TKdiv {'+
+                    
+                '}'+
+                '.TKfooter {'+
+                    'color: #bbbbbb;'+
+                    'font-size: 7pt;'+
+                '}'+
+                '.TKimg {'+
+                    'width: 10px;'+
+                    'height: 10px;'+
+                    'border: 1px solid black;'+
+                    'border-radius: 1px;'+
+                    'position: relative;'+
+                    'top: 3px;'+
+                '}'+
+              '</style>'+
+              '<div class="TKdiv">'+before+'<footer class="TKfooter"><img class="TKimg" src="http://cs6.pikabu.ru/images/avatars/104/v104973-574379787.jpg"/> Created by TryKote</footer></div>';
+    } 
 
-    before = before.replace(/\[\:([\s\S]*?)\:\]/gim, '[:'+res+':]');
+    before = before.replace(/\[\:([\s\S]*?)\:\]/gim, ''+res+'');
     before = before.replace(/\[u\]([\u\S]*?)\[\/u\]/gim, '<u>$1</u>');
     before = before.replace(/\[s\]([\s\S]*?)\[\/s\]/gim, '<s>$1</s>');
     before = before.replace(/\[link\]([\link\S]*?)\[\/link\]/gim, '<a href="$1">$1</a>');
@@ -100,11 +118,11 @@ function replace() {
 
 
 function onWindowLoad() {
-	chrome.webNavigation.onCompleted.addListener(function(details) {
-	    chrome.tabs.executeScript(null, {
-	        code: 'replace();'
-	    });
-	});
+    chrome.webNavigation.onCompleted.addListener(function(details) {
+        chrome.tabs.executeScript(null, {
+            code: 'replace();'
+        });
+    });
 }
 
 onWindowLoad();
