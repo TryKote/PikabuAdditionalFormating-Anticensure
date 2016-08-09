@@ -1,4 +1,25 @@
+function utf8_encode (str_data) { // Encodes an ISO-8859-1 string to UTF-8
+  str_data = str_data.replace(/\r\n/g,"\n");
+  var utftext = "";
+
+  for (var n = 0; n < str_data.length; n++) {
+    var c = str_data.charCodeAt(n);
+    if (c < 128) {
+      utftext += String.fromCharCode(c);
+    } else if((c > 127) && (c < 2048)) {
+      utftext += String.fromCharCode((c >> 6) | 192);
+      utftext += String.fromCharCode((c & 63) | 128);
+    } else {
+      utftext += String.fromCharCode((c >> 12) | 224);
+      utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+      utftext += String.fromCharCode((c & 63) | 128);
+    }
+  }
+  return utftext;
+}
+
 function base64encode(str) {
+  str = utf8_encode(str);
   console.log("base64encode");
   console.log("str:" + str);
   var b64chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefg' +
@@ -32,20 +53,27 @@ function replace() {
 
 function generator() {
 	console.log("generator");
-    setInterval(replace, 500);
-    var all = document.getElementById('TKcontent').getElementsByTagName("textarea");
-    all[0].style = "";
-    all[1].style = "";
+  //setInterval(replace, 500);
+  var all = document.getElementById('TKcontent').getElementsByTagName("textarea");
+  all[0].style = "";
+  all[1].style = "";
+}
+
+function getI() {
+  console.log("getI");
+  var all = document.getElementById('TKcontent').getElementsByTagName("textarea");
+  all[0].style = "display: none;";
+  all[1].style = "display: none;";
 }
 
 console.log("In js:");
 
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('genBtn').addEventListener('click', generator);
-  //main();
-});
+  document.getElementById('iBtn').addEventListener('click', getI);
 
-/*document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('TKcode').addEventListener('onchange', replace);
-  //main();
-});*/
+  document.getElementById('TKtext').onkeydown = function() {
+    replace();
+  };
+  setInterval(replace, 700); //for special chars [ ] / \ 
+});

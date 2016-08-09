@@ -1,6 +1,50 @@
 var AllReplaced = false;
 
+function utf8_encode (str_data) { // Encodes an ISO-8859-1 string to UTF-8
+  str_data = str_data.replace(/\r\n/g,"\n");
+  var utftext = "";
+
+  for (var n = 0; n < str_data.length; n++) {
+    var c = str_data.charCodeAt(n);
+    if (c < 128) {
+      utftext += String.fromCharCode(c);
+    } else if((c > 127) && (c < 2048)) {
+      utftext += String.fromCharCode((c >> 6) | 192);
+      utftext += String.fromCharCode((c & 63) | 128);
+    } else {
+      utftext += String.fromCharCode((c >> 12) | 224);
+      utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+      utftext += String.fromCharCode((c & 63) | 128);
+    }
+  }
+  return utftext;
+}
+
+function utf8_decode ( str_data ) { // Converts a string with ISO-8859-1 characters encoded with UTF-8   to single-byte
+  var string = "", i = 0, c = c1 = c2 = 0;
+
+  while ( i < str_data.length ) {
+    c = str_data.charCodeAt(i);
+    if (c < 128) {
+      string += String.fromCharCode(c);
+      i++;
+    } else if((c > 191) && (c < 224)) {
+      c2 = str_data.charCodeAt(i+1);
+      string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+      i += 2;
+    } else {
+      c2 = str_data.charCodeAt(i+1);
+      c3 = str_data.charCodeAt(i+2);
+      string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+      i += 3;
+    }
+  }
+  return string;
+}
+
+
 function base64encode(str) {
+  str = utf8_encode(str);
   var b64chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefg' +
     'hijklmnopqrstuvwxyz0123456789+/=';
   var b64encoded = '';
@@ -52,6 +96,7 @@ function base64decode(str) {
             b64decoded += String.fromCharCode(chr3);
         }
     }
+    b64decoded = utf8_decode(b64decoded);
     return b64decoded;
 }
 
@@ -105,7 +150,7 @@ function replace() {
               '<div class="TKdiv">'+before+'<footer class="TKfooter"><img class="TKimg" src="http://cs6.pikabu.ru/images/avatars/104/v104973-574379787.jpg"/> Created by TryKote</footer></div>';
       //----------------------------------------
       before = before.replace(/\[\:([\s\S]*?)\:\]/gim, ''+res+'');
-      before = before.replace(/\[u\]([\u\S]*?)\[\/u\]/gim, '<u>$1</u>');
+      before = before.replace(/\[u\]([\s\S]*?)\[\/u\]/gim, '<u>$1</u>');
       before = before.replace(/\[s\]([\s\S]*?)\[\/s\]/gim, '<s>$1</s>');
       before = before.replace(/\[link\]([\link\S]*?)\[\/link\]/gim, '<a href="$1">$1</a>');
     } 
