@@ -77,6 +77,34 @@
       	height: 15%;
       	margin-top: 3px;
       }
+      .TKp {
+        color: #A3A3A3;
+        font-size: 14pt;
+      }
+      .TKimg {
+        width: 35px;
+        height: 35px;
+        border: 1px solid black;
+        border-radius: 3px;
+        position: relative;
+        top: 11px;
+      }
+      .aboutme {
+        position: relative;
+        bottom: -50px;
+      }
+      .iam {
+        height: 100%;
+        width: 100%;
+      }
+      .about {
+        border: 1px solid black;
+        padding: 2px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        border-radius: 3px;
+        text-align: center;
+      }
 
 	</style>
 	
@@ -87,12 +115,22 @@
     </ul>
  
     <div class="TKcontent" id="TKcontent">
+
     	<textarea class="TKtext" id="TKtext" style="display: none;">Введите ваше сообщение. Пример синтакисиа:
 [u]Подчеркнутый текст[/u]
 [s]Зачеркнутый текст[/s]
-[link]http://google.ru/[/link]
-      </textarea>
+[link]http://google.ru/[/link]</textarea>
       <textarea class="TKcode" id="TKcode" style="display: none;"></textarea>
+
+      <div id="iam" class="iam" style="display: none;">
+        <p class="about"> GitHub:   <a id="Git" href="#">PikabuAnticensure</a></p>
+        <p class="about"> Telegram: <a id="Tg"  href="#">@TryKote</a></p>
+        <p class="about"> Email: TryKote@protonmail.com</p>
+        <div id="aboutme" class="aboutme" align="center">
+        <hr size="1px"><p class="TKp"><img class="TKimg" src="http://cs6.pikabu.ru/images/avatars/104/v104973-574379787.jpg"/> Created by TryKote</p>
+        </div>
+      </div>
+
     </div>
 </body>
 </html>

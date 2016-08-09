@@ -51,9 +51,17 @@ function replace() {
 	document.getElementById('TKcode').value = '[:'+base64encode(document.getElementById('TKtext').value)+':]';
 }
 
+function hideall() {
+  var all = document.getElementById('TKcontent').getElementsByTagName("textarea");
+  all[0].style = "display: none;";
+  all[1].style = "display: none;";
+  all = document.getElementById('iam');
+  all.style = "display: none;"
+}
+
 function generator() {
 	console.log("generator");
-  //setInterval(replace, 500);
+  hideall();
   var all = document.getElementById('TKcontent').getElementsByTagName("textarea");
   all[0].style = "";
   all[1].style = "";
@@ -61,16 +69,28 @@ function generator() {
 
 function getI() {
   console.log("getI");
-  var all = document.getElementById('TKcontent').getElementsByTagName("textarea");
-  all[0].style = "display: none;";
-  all[1].style = "display: none;";
+  hideall();
+  document.getElementById('iam').style = "";
+  /*var newURL = "http://stackoverflow.com/";
+  chrome.tabs.create({ url: newURL });*/
 }
 
+function Git() {
+  var newURL = "https://github.com/TryKote/PikabuAnticensure";
+  chrome.tabs.create({ url: newURL });
+}
+
+function Tg() {
+  var newURL = "https://telegram.me/TryKote";
+  chrome.tabs.create({ url: newURL });
+}
 console.log("In js:");
 
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('genBtn').addEventListener('click', generator);
   document.getElementById('iBtn').addEventListener('click', getI);
+  document.getElementById('Git').addEventListener('click', Git);
+  document.getElementById('Tg').addEventListener('click', Tg);
 
   document.getElementById('TKtext').onkeydown = function() {
     replace();
