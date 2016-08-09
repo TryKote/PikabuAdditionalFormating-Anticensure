@@ -1,7 +1,6 @@
 var AllReplaced = false;
 
 function base64encode(str) {
-  // Символы для base64-преобразования
   var b64chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefg' +
     'hijklmnopqrstuvwxyz0123456789+/=';
   var b64encoded = '';
@@ -26,7 +25,6 @@ function base64encode(str) {
 }
 
 function base64decode(str) {
-    // Символы для base64-преобразования
     var b64chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefg'+
                    'hijklmnopqrstuvwxyz0123456789+/=';
     var b64decoded = '';
@@ -77,6 +75,7 @@ function replace() {
     var base = /\[\:([\s\S]*?)\:\]/gim;
     console.log('var base: ', base);
     var res = base.exec(before);
+
     if (res) {
       console.log('Res found: ', res[1]);
       res = base64decode(String(res[1]));
@@ -85,6 +84,7 @@ function replace() {
       console.log('After antixss: ', res);
     //------------------------------------------
       
+    //--------Signature add module--------------
       before = '<style type="text/css">'+
                 '.TKdiv {'+
                     
@@ -103,12 +103,13 @@ function replace() {
                 '}'+
               '</style>'+
               '<div class="TKdiv">'+before+'<footer class="TKfooter"><img class="TKimg" src="http://cs6.pikabu.ru/images/avatars/104/v104973-574379787.jpg"/> Created by TryKote</footer></div>';
+      //----------------------------------------
+      before = before.replace(/\[\:([\s\S]*?)\:\]/gim, ''+res+'');
+      before = before.replace(/\[u\]([\u\S]*?)\[\/u\]/gim, '<u>$1</u>');
+      before = before.replace(/\[s\]([\s\S]*?)\[\/s\]/gim, '<s>$1</s>');
+      before = before.replace(/\[link\]([\link\S]*?)\[\/link\]/gim, '<a href="$1">$1</a>');
     } 
 
-    before = before.replace(/\[\:([\s\S]*?)\:\]/gim, ''+res+'');
-    before = before.replace(/\[u\]([\u\S]*?)\[\/u\]/gim, '<u>$1</u>');
-    before = before.replace(/\[s\]([\s\S]*?)\[\/s\]/gim, '<s>$1</s>');
-    before = before.replace(/\[link\]([\link\S]*?)\[\/link\]/gim, '<a href="$1">$1</a>');
     
 
     document.getElementsByClassName('b-comment__content')[i].innerHTML = before;
