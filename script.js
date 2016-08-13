@@ -106,8 +106,7 @@ function antixss(str) {
   return str;
 }
 
-function replace() {
-  if (AllReplaced) return 0;
+function BodyAutoubdate() {
   for (var i = 0; i < document.getElementsByClassName('b-comment__content').length; i++) {
     var before = document.getElementsByClassName('b-comment__content')[i].innerHTML;
 
@@ -148,13 +147,16 @@ function replace() {
       before = before.replace(/\[u\]([\s\S]*?)\[\/u\]/gim, '<u>$1</u>');
       before = before.replace(/\[s\]([\s\S]*?)\[\/s\]/gim, '<s>$1</s>');
       before = before.replace(/\[link\]([\link\S]*?)\[\/link\]/gim, '<a href="$1">$1</a>');
-    } 
-
-    
-
+    }
     document.getElementsByClassName('b-comment__content')[i].innerHTML = before;
-  }
+  }  
+}
+
+function replace() {
+  if (AllReplaced) return 0;
   AllReplaced = true;
+  BodyAutoubdate();
+  setInterval(BodyAutoubdate, 3000);
 }
 
 
