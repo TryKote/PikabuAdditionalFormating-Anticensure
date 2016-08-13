@@ -1,3 +1,20 @@
+function getXmlHttp(){
+  var xmlhttp;
+  try {
+    xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+  } catch (e) {
+    try {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    } catch (E) {
+      xmlhttp = false;
+    }
+  }
+  if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+    xmlhttp = new XMLHttpRequest();
+  }
+  return xmlhttp;
+}
+
 function utf8_encode (str_data) { // Encodes an ISO-8859-1 string to UTF-8
   str_data = str_data.replace(/\r\n/g,"\n");
   var utftext = "";
@@ -56,7 +73,9 @@ function hideall() {
   all[0].style = "display: none;";
   all[1].style = "display: none;";
   all = document.getElementById('iam');
-  all.style = "display: none;"
+  all.style = "display: none;";
+  all = document.getElementById('info');
+  all.style = "display: none;";
 }
 
 function generator() {
@@ -71,8 +90,24 @@ function getI() {
   console.log("getI");
   hideall();
   document.getElementById('iam').style = "";
-  /*var newURL = "http://stackoverflow.com/";
-  chrome.tabs.create({ url: newURL });*/
+}
+
+function info() {
+  console.log("info");
+  hideall();
+  document.getElementById('info').style = "background-color: #FFFFFF;";
+  document.getElementById('info').innerHTML = "<h3 align='center'>Загрузка...<br>Пожалуйста, подождите...</h3>";
+
+  var xmlhttp = getXmlHttp()
+  xmlhttp.open('GET', 'https://raw.githubusercontent.com/TryKote/PikabuAnticensure/remote/news.html', true);
+  xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4) {
+       if(xmlhttp.status == 200) {
+         document.getElementById('info').innerHTML = xmlhttp.responseText;
+           }
+    }
+  };
+  xmlhttp.send(null);/**/
 }
 
 function Git() {
@@ -84,13 +119,21 @@ function Tg() {
   var newURL = "https://telegram.me/TryKote";
   chrome.tabs.create({ url: newURL });
 }
+
+function Email() {
+  var newURL = "mailto:TryKote@protonmail.com";
+  chrome.tabs.create({ url: newURL });
+}
+
 console.log("In js:");
 
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('genBtn').addEventListener('click', generator);
   document.getElementById('iBtn').addEventListener('click', getI);
+  document.getElementById('infoBtn').addEventListener('click', info);
   document.getElementById('Git').addEventListener('click', Git);
   document.getElementById('Tg').addEventListener('click', Tg);
+  document.getElementById('Email').addEventListener('click', Email);
 
   document.getElementById('TKtext').onkeydown = function() {
     replace();

@@ -92,3 +92,7 @@ body{
 	border-radius: 3px;
 	text-align: center;
 }
+.info {
+	font-family: 'Times New Roman', Times, serif;
+	font-size: 120%;
+}
