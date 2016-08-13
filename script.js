@@ -101,7 +101,8 @@ function base64decode(str) {
 }
 
 function antixss(str) {
-  str = str.replace(/<([\S\s]*?)>/gm, '[$1]');
+//str = str.replace(/<\/?[^>]+>/gi, '[$1]');
+  str = str.replace(/<\/?[^>]+>/gi, '[$1]');
   str = str.replace(/</gm, ' ');
   str = str.replace(/>/gm, ' ');
   //str = str.replace(/\//gm, ' ');
