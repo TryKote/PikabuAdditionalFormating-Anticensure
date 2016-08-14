@@ -147,7 +147,7 @@ function BodyAutoubdate() {
       before = before.replace(/\[u\]([\s\S]*?)\[\/u\]/gim, '<u>$1</u>');
       before = before.replace(/\[s\]([\s\S]*?)\[\/s\]/gim, '<s>$1</s>');
       before = before.replace(/\[link\]([\link\S]*?)\[\/link\]/gim, '<a href="$1">$1</a>');
-      before = before.replace(/\[img\]((?:https?\:\/\/)[\S\s]*?(?:(?:\.jpg)|(?:\.png)))\[\/img\]/gim, '<a href="$1"><img class="b-image" data-viewable="true" data-large-image="" src="$1"></a>')
+      before = before.replace(/\[img\]((?:https?\:\/\/)[\S\s]*?(?:(?:\.jpg)|(?:\.png)))\[\/img\]/gim, '<a href="$1"><img class="b-image" data-viewable="true" data-large-image="" style="max-height: 600px; max-width: 800px; border-radius: 5%; float: top; margin-bottom: 2%;" src="$1"></a><br>')
     }
     document.getElementsByClassName('b-comment__content')[i].innerHTML = before;
   }  
