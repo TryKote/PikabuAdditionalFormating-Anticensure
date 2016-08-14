@@ -103,6 +103,7 @@ function base64decode(str) {
 function antixss(str) {
   str = str.replace('<', '&lt;');
   str = str.replace('>', '&gt;');
+  str = str.replace(/\r\n|\r|\n/g,"<br>");
   return str;
 }
 
