@@ -124,7 +124,19 @@ function BodyAutoubdate() {
       console.log('After antixss: ', res);
     //------------------------------------------
       
-    //--------Signature add module--------------
+    }
+      //---------TAGS module---------------------------------------------------
+      before = before.replace(/\[\:([\s\S]*?)\:\]/gim, ''+res+'');
+      before = before.replace(/\[u\]([\s\S]*?)\[\/u\]/gim, '<u>$1</u>');
+      before = before.replace(/\[s\]([\s\S]*?)\[\/s\]/gim, '<s>$1</s>');
+      before = before.replace(/\[link\]([\link\S]*?)\[\/link\]/gim, '<a href="$1">$1</a>');
+      before = before.replace(/\[h\]([\s\S]*?)\[\/h\]/gim, '<h4><b>$1</b></h4><hr>');
+      before = before.replace(/\[line\]/gim, '<hr>');
+      before = before.replace(/\[img\]((?:https?\:\/\/)[\S\s]*?(?:(?:\.jpg)|(?:\.png)))\[\/img\]/gim, '<a href="$1"><img class="b-image" data-viewable="true" data-large-image="" style="max-height: 600px; max-width: 800px; border-radius: 5%; float: top; margin-bottom: 2%;" src="$1"></a><br>');
+      //-----------------------------------------------------------------------
+    
+    if (document.getElementsByClassName('b-comment__content')[i].innerHTML != before) {
+      //--------Signature add module--------------
       before = '<style type="text/css">'+
                 '.TKdiv {'+
                     
@@ -144,13 +156,6 @@ function BodyAutoubdate() {
               '</style>'+
               '<div class="TKdiv">'+before+'<footer class="TKfooter"><img class="TKimg" src="http://cs6.pikabu.ru/images/avatars/104/v104973-574379787.jpg"/> Created by TryKote</footer></div>';
       //----------------------------------------
-      before = before.replace(/\[\:([\s\S]*?)\:\]/gim, ''+res+'');
-      before = before.replace(/\[u\]([\s\S]*?)\[\/u\]/gim, '<u>$1</u>');
-      before = before.replace(/\[s\]([\s\S]*?)\[\/s\]/gim, '<s>$1</s>');
-      before = before.replace(/\[link\]([\link\S]*?)\[\/link\]/gim, '<a href="$1">$1</a>');
-      before = before.replace(/\[img\]((?:https?\:\/\/)[\S\s]*?(?:(?:\.jpg)|(?:\.png)))\[\/img\]/gim, '<a href="$1"><img class="b-image" data-viewable="true" data-large-image="" style="max-height: 600px; max-width: 800px; border-radius: 5%; float: top; margin-bottom: 2%;" src="$1"></a><br>')
-    }
-    if (document.getElementsByClassName('b-comment__content')[i].innerHTML != before) {
       document.getElementsByClassName('b-comment__content')[i].innerHTML = before;
     }
   }  
