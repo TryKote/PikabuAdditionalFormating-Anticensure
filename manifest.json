@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name":"Pikabu-anticensure",
-  "version":"1.02",
+  "name":"PikabuAdditionalFormating&Anticensure",
+  "version":"1.1",
   "background": {
     //"page": ["bg.html"]  // имя background страницы.
 	  "scripts": ["script.js"]
