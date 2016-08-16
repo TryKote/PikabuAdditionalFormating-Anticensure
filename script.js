@@ -111,6 +111,7 @@ var spoilerIter = 0;
 
 function BodyAutoubdate() {
   for (var i = 0; i < document.getElementsByClassName('b-comment__content').length; i++) {
+    var signExists = false;
     var before = document.getElementsByClassName('b-comment__content')[i].innerHTML;
 
     //---------BASE64-decode module-------------- 
@@ -173,29 +174,31 @@ function BodyAutoubdate() {
       //-----------------------------------------------------------------------
     
 
-    if (document.getElementsByClassName('b-comment__content')[i].innerHTML != before) {
-      //--------Signature add module--------------
-      before = '<style type="text/css">'+
-                '.TKdiv {'+
-                    
-                '}'+
-                '.TKfooter {'+
-                    'color: #bbbbbb;'+
-                    'font-size: 7pt;'+
-                '}'+
-                '.TKimg {'+
-                    'width: 10px;'+
-                    'height: 10px;'+
-                    'border: 1px solid black;'+
-                    'border-radius: 1px;'+
-                    'position: relative;'+
-                    'top: 3px;'+
-                '}'+
-              '</style>'+
-              '<div class="TKdiv">'+before+'<footer class="TKfooter"><img class="TKimg" src="http://cs6.pikabu.ru/images/avatars/104/v104973-574379787.jpg"/> Created by TryKote</footer></div>';
-      //----------------------------------------
-      document.getElementsByClassName('b-comment__content')[i].innerHTML = before;
-    }
+    if (document.getElementsByClassName('b-comment__content')[i].innerHTML != before) 
+      if (!signExists) {
+        signExists = true;
+        //--------Signature add module--------------
+        before = '<style type="text/css">'+
+                  '.TKdiv {'+
+                      
+                  '}'+
+                  '.TKfooter {'+
+                      'color: #bbbbbb;'+
+                      'font-size: 7pt;'+
+                  '}'+
+                  '.TKimg {'+
+                      'width: 10px;'+
+                      'height: 10px;'+
+                      'border: 1px solid black;'+
+                      'border-radius: 1px;'+
+                      'position: relative;'+
+                      'top: 3px;'+
+                  '}'+
+                '</style>'+
+                '<div class="TKdiv">'+before+'<footer class="TKfooter"><img class="TKimg" src="http://cs6.pikabu.ru/images/avatars/104/v104973-574379787.jpg"/> Created by TryKote</footer></div>';
+        //----------------------------------------
+        document.getElementsByClassName('b-comment__content')[i].innerHTML = before;
+      }
   }  
 }
 
