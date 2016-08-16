@@ -107,6 +107,8 @@ function antixss(str) {
   return str;
 }
 
+var spoilerIter = 0;
+
 function BodyAutoubdate() {
   for (var i = 0; i < document.getElementsByClassName('b-comment__content').length; i++) {
     var before = document.getElementsByClassName('b-comment__content')[i].innerHTML;
@@ -122,9 +124,42 @@ function BodyAutoubdate() {
       console.log('Res decoded: ', res);
       res = antixss(res);
       console.log('After antixss: ', res);
-    //------------------------------------------
-      
     }
+    //------------------------------------------
+      //-------------------------SPOILER module----------------------------------
+      var SpoilerReg = /\[spoiler\=([\w]*?)\]([\s\S]*?)\[\/spoiler\]/gim;
+      var SpoilerExist = SpoilerReg.exec(before);
+      
+      while(SpoilerExist) {
+          spoilerIter++;
+          before = '<style>'+
+                   '/*.wrap {'+
+                        'max-width: 860px;'+
+                        'padding: 10px;'+
+                        'margin: 0 auto;'+  
+                    '}*/'+
+                    '.terms {'+
+                        'display:none;'+
+                        'margin:5px 0px;'+
+                        'padding:10px;'+
+                        '/*width:50%;*/'+
+                        'border:1px solid #ffbc80;'+
+                        'background:#ffffdf;'+
+                    '}'+
+                    '.tt {'+
+                        'color:#f70;'+
+                        'cursor: help;'+
+                    '}'+
+                    '.tt:hover{'+
+                        'border-bottom:1px dashed green;'+
+                        'color:green;'+
+                    '}'+
+                   '</style>' + before;
+
+          before = before.replace(/\[spoiler\=([\w]*?)\]([\s\S]*?)\[\/spoiler\]/gim, '<span class="tt" id="'+spoilerIter+'"  onclick="var style = document.getElementById(\'-'+spoilerIter+'\').style; style.display = (style.display == \'block\') ? \'none\' : \'block\'; return false">$1</span><span id="-'+spoilerIter+'" class="terms">$2</span>');
+          SpoilerExist = SpoilerReg.exec(before);
+        //-----------------------------------------------------------------
+        }/**/
       //---------TAGS module---------------------------------------------------
       before = before.replace(/\[\:([\s\S]*?)\:\]/gim, ''+res+'');
       before = before.replace(/\[u\]([\s\S]*?)\[\/u\]/gim, '<u>$1</u>');
@@ -133,8 +168,11 @@ function BodyAutoubdate() {
       before = before.replace(/\[h\]([\s\S]*?)\[\/h\]/gim, '<h4><b>$1</b></h4><hr>');
       before = before.replace(/\[line\]/gim, '<hr>');
       before = before.replace(/\[img\]((?:https?\:\/\/)[\S\s]*?(?:(?:\.jpg)|(?:\.png)))\[\/img\]/gim, '<a href="$1"><img class="b-image" data-viewable="true" data-large-image="" style="max-height: 600px; max-width: 800px; border-radius: 5%; float: top; margin-bottom: 2%;" src="$1"></a><br>');
+      
+
       //-----------------------------------------------------------------------
     
+
     if (document.getElementsByClassName('b-comment__content')[i].innerHTML != before) {
       //--------Signature add module--------------
       before = '<style type="text/css">'+
@@ -164,6 +202,8 @@ function BodyAutoubdate() {
 function replace() {
   if (AllReplaced) return 0;
   AllReplaced = true;
+  //document.documentElement.getElementsByTagName('head')[0].innerHTML = '<script type="text/javascript"> function view(n) { var style = document.getElementById(n).style; style.display = (style.display == \'block\') ? \'none\' : \'block\'; }</script>' + document.documentElement.getElementsByTagName('head')[0].innerHTML;
+  console.log("HEAD: "+document.documentElement.getElementsByTagName('head')[0].innerHTML);
   BodyAutoubdate();
   setInterval(BodyAutoubdate, 3000);
 }
